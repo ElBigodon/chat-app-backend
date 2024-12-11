@@ -11,12 +11,32 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::create('rooms_users', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->timestamps();
+        });
+        
         Schema::create('rooms', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('owner');
-            $table->string('connected_users');
-            $table->string('password')->nullable();
+            $table->foreignId('owner_id')->constrained( 'rooms_users')->onDelete('cascade');
+            $table->string('code');
+            $table->timestamps();
+        });
+
+        Schema::create('rooms_connect_users', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('room_id')->constrained('rooms')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('rooms_users')->onDelete('cascade');
+            $table->timestamps();
+        });
+
+        Schema::create('rooms_messages', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('room_id')->constrained('rooms')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('rooms_users')->onDelete('cascade');
+            $table->text('content');
             $table->timestamps();
         });
     }

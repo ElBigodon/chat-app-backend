@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateRoomFormRequest extends FormRequest
+class CreateRoomMessageFormRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,8 +22,7 @@ class CreateRoomFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => "required|string|min:3|max:32",
-            "owner" => "required|string|min:3|max:32"
+            'content' => 'required|string'
         ];
     }
 }
